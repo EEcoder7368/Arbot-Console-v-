@@ -12,9 +12,9 @@ namespace Arbot__V_Console_
             Arbot_lessons timetable;
             string? pass_input;
 
-            Console.WriteLine("Enter password:");
-            Console.WriteLine("(Enter \'Forgot\' to reset password)");
-            pass_input = Console.ReadLine();
+            Console.WriteLine("Enter password: ");
+            Console.Write("(Enter \'Forgot\' to reset password):    ");
+            pass_input = Encript_input("*");
             Console.WriteLine("");
 
             const string connectionString = "Server=localhost\\SQLEXPRESS;Database=Arbot;Trusted_Connection=True;";
@@ -22,8 +22,8 @@ namespace Arbot__V_Console_
             {
                 connection.Open();
                 string sql_command_info;
-                if (pass_input.ToLower() == "forgot") {
-                    Console.WriteLine("");
+                if (pass_input.ToLower() == "forgot")
+                {
                     Console.WriteLine("Please enter your first name, case sensitive.");
                     string first = Console.ReadLine();
                     Console.WriteLine("Please enter your last name, case sensitive.");
@@ -31,14 +31,7 @@ namespace Arbot__V_Console_
                     sql_command_info = "SELECT pass FROM arbot_info WHERE first_name = @First AND last_name = @Last";
                     Console.WriteLine("");
                     Console.WriteLine("Your password is:");
-
-                    dynamic what_pass = connection.QuerySingleOrDefault(sql_command_info, new { @First = first, @Last = last });
-                    int start = what_pass.IndexOf("= '") + 3;
-                    int end = what_pass.IndexOf("'}");
-                    int length = end - start;
-                    what_pass = what_pass.substring(start, length);
-                    Console.WriteLine(what_pass);
-
+                    Console.WriteLine(connection.QuerySingleOrDefault<string>(sql_command_info, new { @First = first, @Last = last }));
                     Console.WriteLine("");
                     Console.WriteLine("Press any key to exit:");
                     Console.ReadKey();
@@ -62,6 +55,7 @@ namespace Arbot__V_Console_
                 timetable = connection.QuerySingleOrDefault<Arbot_lessons>(sql_command_lessons, new { Id = info.id });
                 connection.Close();
             }
+            Console.Clear();
 
             List<string> lessons = new List<string>();
             DateTime now = DateTime.Now;
@@ -185,7 +179,6 @@ namespace Arbot__V_Console_
             }
 
             Console.WriteLine("");
-            Console.WriteLine($"Your attendace is {info.attendace}%,");
             Console.WriteLine($"You have: {info.positives} positive(s),");
             Console.WriteLine($"You have: {info.negatives} negative(s),");
             Console.WriteLine($"And you have: {info.house_points} house point(s).");
@@ -203,18 +196,9 @@ namespace Arbot__V_Console_
                 Console.WriteLine("2.\t Update Negatives,");
                 Console.WriteLine("3.\t Change lessons,");
                 Console.WriteLine("4.\t Change password.");
-
-                if (info.has_game_pass == null)
-                {
-                    Console.WriteLine("");
-                    Console.WriteLine("Master commands:");
-                    Console.WriteLine("5 .\t Who extended their game pass, (type: \'game pass\')");
-                }
-
                 Console.WriteLine("");
                 Console.WriteLine("Enter the command\'s number.");
                 Console.WriteLine("");
-                //}
 
                 choice = Console.ReadLine();
                 int many;
@@ -287,8 +271,8 @@ namespace Arbot__V_Console_
                         break;
 
                     case "4":
-                        Console.WriteLine("Enter old password:");
-                        old_pass = Console.ReadLine();
+                        Console.WriteLine("Enter old password:  ");
+                        old_pass = Encript_input("*");
                         using (SqlConnection connection = new(connectionString))
                         {
                             connection.Open();
@@ -316,23 +300,8 @@ namespace Arbot__V_Console_
                         }
                         break;
 
-                    case "6":
-                        Console.WriteLine("Enter last name:");
-                        when = Console.ReadLine();
-                        Console.WriteLine("How many more weeks have they paid for?");
-                        many = Int32.Parse(Console.ReadLine());
-                        using (SqlConnection connection = new(connectionString))
-                        {
-                            connection.Open();
-                            sql_command = "Update arbot_info " +
-                                          "Set has_game_pass = DateAdd(weeks, @Many, has_game_pass) " +
-                                          "Where last_name = @Who";
-                            connection.QueryFirstOrDefault<Arbot_info>(sql_command, new { @Who = when, @Many = many });
-                            connection.Close();
-                        }
-                        Console.WriteLine("");
-                        Console.WriteLine("Complete");
-                        Console.WriteLine("");
+                    default:
+                        Console.WriteLine("Command not regognised.");
                         break;
                 }
             }
@@ -345,65 +314,88 @@ namespace Arbot__V_Console_
             Console.WriteLine("Press any key to close...");
             Console.ReadKey();
         }
+
+        public static string Encript_input(string replace_char)
+        {
+            string input = "";
+            ConsoleKeyInfo key;
+
+            do
+            {
+                key = Console.ReadKey(true);
+                if (key.Key != ConsoleKey.Enter && key.Key != ConsoleKey.Backspace)
+                {
+                    input += key.KeyChar;
+                    Console.Write(replace_char);
+                }
+                else if (key.Key == ConsoleKey.Backspace)
+                {
+                    input = input.Substring(0, input.Length - 1);
+                    Console.Write("\b \b");
+                }
+            } while (key.Key != ConsoleKey.Enter);
+
+            return input;
+        }
+    }
     public class Arbot_lessons
-        {
-            public string? Id { get; set; }
-            public string? Form { get; set; }
-            public string? Mon_p1 { get; set; }
-            public string? Mon_p2 { get; set; }
-            public string? Mon_p3 { get; set; }
-            public string? Mon_p4 { get; set; }
-            public string? Mon_lunch { get; set; }
-            public string? Mon_p5 { get; set; }
-            public string? Mon_p6 { get; set; }
-            public string? Mon_home { get; set; }
+    {
+        public string? Id { get; set; }
+        public string? Form { get; set; }
+        public string? Mon_p1 { get; set; }
+        public string? Mon_p2 { get; set; }
+        public string? Mon_p3 { get; set; }
+        public string? Mon_p4 { get; set; }
+        public string? Mon_lunch { get; set; }
+        public string? Mon_p5 { get; set; }
+        public string? Mon_p6 { get; set; }
+        public string? Mon_home { get; set; }
 
-            public string? Tue_p1 { get; set; }
-            public string? Tue_p2 { get; set; }
-            public string? Tue_p3 { get; set; }
-            public string? Tue_p4 { get; set; }
-            public string? Tue_lunch { get; set; }
-            public string? Tue_p5 { get; set; }
-            public string? Tue_p6 { get; set; }
-            public string? Tue_home { get; set; }
+        public string? Tue_p1 { get; set; }
+        public string? Tue_p2 { get; set; }
+        public string? Tue_p3 { get; set; }
+        public string? Tue_p4 { get; set; }
+        public string? Tue_lunch { get; set; }
+        public string? Tue_p5 { get; set; }
+        public string? Tue_p6 { get; set; }
+        public string? Tue_home { get; set; }
 
-            public string? Wed_p1 { get; set; }
-            public string? Wed_p2 { get; set; }
-            public string? Wed_p3 { get; set; }
-            public string? Wed_p4 { get; set; }
-            public string? Wed_lunch { get; set; }
-            public string? Wed_p5 { get; set; }
-            public string? Wed_p6 { get; set; }
-            public string? Wed_home { get; set; }
+        public string? Wed_p1 { get; set; }
+        public string? Wed_p2 { get; set; }
+        public string? Wed_p3 { get; set; }
+        public string? Wed_p4 { get; set; }
+        public string? Wed_lunch { get; set; }
+        public string? Wed_p5 { get; set; }
+        public string? Wed_p6 { get; set; }
+        public string? Wed_home { get; set; }
 
-            public string? Thu_p1 { get; set; }
-            public string? Thu_p2 { get; set; }
-            public string? Thu_p3 { get; set; }
-            public string? Thu_p4 { get; set; }
-            public string? Thu_lunch { get; set; }
-            public string? Thu_p5 { get; set; }
-            public string? Thu_p6 { get; set; }
-            public string? Thu_home { get; set; }
+        public string? Thu_p1 { get; set; }
+        public string? Thu_p2 { get; set; }
+        public string? Thu_p3 { get; set; }
+        public string? Thu_p4 { get; set; }
+        public string? Thu_lunch { get; set; }
+        public string? Thu_p5 { get; set; }
+        public string? Thu_p6 { get; set; }
+        public string? Thu_home { get; set; }
 
-            public string? Fri_p1 { get; set; }
-            public string? Fri_p2 { get; set; }
-            public string? Fri_p3 { get; set; }
-            public string? Fri_p4 { get; set; }
-            public string? Fri_lunch { get; set; }
-            public string? Fri_p5 { get; set; }
-            public string? Fri_p6 { get; set; }
-            public string? Fri_home { get; set; }
-        }
+        public string? Fri_p1 { get; set; }
+        public string? Fri_p2 { get; set; }
+        public string? Fri_p3 { get; set; }
+        public string? Fri_p4 { get; set; }
+        public string? Fri_lunch { get; set; }
+        public string? Fri_p5 { get; set; }
+        public string? Fri_p6 { get; set; }
+        public string? Fri_home { get; set; }
+    }
 
-        public class Arbot_info
-        {
-            public string? id { get; set; }
-            public string? pass { get; set; }
-            public string? first_name { get; set; }
-            public string? last_name { get; set; }
-            public int? positives { get; set; }
-            public int? negatives { get; set; }
-            public int? house_points { get; set; 
-        }
+    public class Arbot_info
+    {
+        public string? id { get; set; }
+        public string? pass { get; set; }
+        public string? first_name { get; set; }
+        public string? last_name { get; set; }
+        public int? positives { get; set; }
+        public int? negatives { get; set; }
+        public int? house_points { get; set; }
     }
 }
