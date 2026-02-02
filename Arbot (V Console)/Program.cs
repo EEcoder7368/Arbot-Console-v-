@@ -403,9 +403,7 @@ namespace Arbot__V_Console_
             public string? last_name { get; set; }
             public int? positives { get; set; }
             public int? negatives { get; set; }
-            public int? house_points { get; set; }
-            public int? attendace { get; set; }
-            public DateOnly? has_game_pass { get; set; }
+            public int? house_points { get; set; 
         }
     }
 }
