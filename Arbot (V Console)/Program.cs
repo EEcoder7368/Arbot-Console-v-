@@ -16,6 +16,7 @@ namespace Arbot__V_Console_
             Console.WriteLine("Loading,");
             Console.WriteLine("");
             int d = 0;
+            Random rand = new();
             for(int i = -1; i++; i<100)
             {
                 Console.Write($"{i}%,");
@@ -25,7 +26,7 @@ namespace Arbot__V_Console_
                     d++;
                 }
                 d = 0;
-                
+                Wait(rand.Next(50, 1000));
             }
             Console.Clear();
             
