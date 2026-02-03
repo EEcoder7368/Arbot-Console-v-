@@ -14,12 +14,21 @@ namespace Arbot__V_Console_
 
             Console.WriteLine("Welcome to Arbot,");
             Console.WriteLine("Loading,");
-            for(int i = -1; i++; i<101)
+            Console.WriteLine("");
+            int d = 0;
+            for(int i = -1; i++; i<100)
             {
                 Console.Write($"{i}%,");
+                while(d <= i.length + 1)
+                {
+                    Console.Write("\b \b");
+                    d++;
+                }
+                d = 0;
+                
             }
-
             Console.Clear();
+            
             Console.WriteLine("Enter password: ");
             Console.Write("(Enter \'Forgot\' to reset password):    ");
             pass_input = Encript_input("*");
