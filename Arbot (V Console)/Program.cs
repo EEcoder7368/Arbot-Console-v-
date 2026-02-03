@@ -12,8 +12,14 @@ namespace Arbot__V_Console_
             Arbot_lessons timetable;
             string? pass_input;
 
-            Console.WriteLine("Welcome to Arbot");
-            Console.WriteLine(" ")
+            Console.WriteLine("Welcome to Arbot,");
+            Console.WriteLine("Loading,");
+            for(int i = -1; i++; i<101)
+            {
+                Console.Write($"{i}%,");
+            }
+
+            Console.Clear();
             Console.WriteLine("Enter password: ");
             Console.Write("(Enter \'Forgot\' to reset password):    ");
             pass_input = Encript_input("*");
