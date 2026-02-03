@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Data.SqlClient;
+using System.Threading;
 using Dapper;
 
 namespace Arbot__V_Console_
@@ -13,21 +14,20 @@ namespace Arbot__V_Console_
             string? pass_input;
 
             Console.WriteLine("Welcome to Arbot,");
-            Console.WriteLine("Loading,");
+            Console.WriteLine("Loading:");
             Console.WriteLine("");
-            int d = 0;
             Random rand = new();
-            for(int i = -1; i++; i<100)
+            for(int i = 0; i <= 100; i++)
             {
-                Console.Write($"{i}%,");
-                while(d <= i.length + 1)
-                {
-                    Console.Write("\b \b");
-                    d++;
-                }
-                d = 0;
-                Wait(rand.Next(50, 1000));
+                Console.Write($"\r{i}%,");
+                Thread.Sleep(rand.Next(30, 60));
             }
+            Thread.Sleep(50);
+            Console.WriteLine("");
+            Console.WriteLine("---Finished---");
+            Console.WriteLine("");
+            Console.WriteLine("Press any button to continue,");
+            Console.ReadKey();
             Console.Clear();
             
             Console.WriteLine("Enter password: ");
