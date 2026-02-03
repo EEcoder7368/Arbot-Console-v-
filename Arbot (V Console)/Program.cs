@@ -12,6 +12,8 @@ namespace Arbot__V_Console_
             Arbot_lessons timetable;
             string? pass_input;
 
+            Console.WriteLine("Welcome to Arbot");
+            Console.WriteLine(" ")
             Console.WriteLine("Enter password: ");
             Console.Write("(Enter \'Forgot\' to reset password):    ");
             pass_input = Encript_input("*");
@@ -44,7 +46,7 @@ namespace Arbot__V_Console_
 
                 if (info == null)
                 {
-                    Console.WriteLine("Wrong, you moron.");
+                    Console.WriteLine("Incorrect, please try again.");
                     Console.WriteLine("");
                     Console.WriteLine("Press any key to exit:");
                     Console.ReadKey();
