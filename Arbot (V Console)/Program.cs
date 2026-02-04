@@ -16,13 +16,13 @@ namespace Arbot__V_Console_
             Console.WriteLine("Welcome to Arbot,");
             Console.WriteLine("Loading:");
             Console.WriteLine("");
-            Random rand = new();
+            Random rand = new Random();
             for(int i = 0; i <= 100; i++)
             {
                 Console.Write($"\r{i}%,");
                 Thread.Sleep(rand.Next(30, 60));
             }
-            Thread.Sleep(50);
+            Thread.Sleep(5);
             Console.WriteLine("");
             Console.WriteLine("---Finished---");
             Console.WriteLine("");
