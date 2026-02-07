@@ -217,7 +217,10 @@ namespace Arbot__V_Console_
                             sql_command = "UPDATE arbot_info " +
                                           "SET positives = @Many + positives " +
                                           "WHERE id = @Id;";
-                            info = connection.QueryFirstOrDefault<Arbot_info>(sql_command, new { Id = info.id, @Many = many });
+                            info = connection.QueryFirstOrDefault<Arbot_info>(sql_command, new { @Id = info.id, @Many = many });
+
+                            sql_command = "SELECT positives FROM arbot_info WHERE id = @Id";
+                            Console.WriteLine(connection.QueryFirstOrDefault<string>(sql_command, new { @Id = info.id }));
                             connection.Close();
                         }
 
@@ -236,6 +239,8 @@ namespace Arbot__V_Console_
                                           "SET negatives = @Many + negatives " +
                                           "WHERE id = @Id;";
                             info = connection.QuerySingleOrDefault<Arbot_info>(sql_command, new { Id = info.id, @Many = many });
+                            sql_command = "SELECT positives FROM arbot_info WHERE id = @Id";
+                            Console.WriteLine(connection.QueryFirstOrDefault<string>(sql_command, new { @Id = info.id }));
                             connection.Close();
                         }
 
@@ -282,7 +287,7 @@ namespace Arbot__V_Console_
                             if (old_pass == what_pass)
                             {
                                 Console.WriteLine("Enter new password:");
-                                new_pass = Console.ReadLine();
+                                new_pass = Encript_input("*");
                                 sql_command = "Update Arbot_info " +
                                               "SET pass = @New_Pass " +
                                               "Where id = @Id;";
