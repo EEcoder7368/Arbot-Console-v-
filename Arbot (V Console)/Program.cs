@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Data.SqlClient;
+using System.Threading;
 using Dapper;
 
 namespace Arbot__V_Console_
@@ -12,6 +13,23 @@ namespace Arbot__V_Console_
             Arbot_lessons timetable;
             string? pass_input;
 
+            Console.WriteLine("Welcome to Arbot,");
+            Console.WriteLine("Loading:");
+            Console.WriteLine("");
+            Random rand = new Random();
+            for(int i = 0; i <= 100; i++)
+            {
+                Console.Write($"\r{i}%,");
+                Thread.Sleep(rand.Next(30, 60));
+            }
+            Thread.Sleep(5);
+            Console.WriteLine("");
+            Console.WriteLine("---Finished---");
+            Console.WriteLine("");
+            Console.WriteLine("Press any button to continue,");
+            Console.ReadKey();
+            Console.Clear();
+            
             Console.WriteLine("Enter password: ");
             Console.Write("(Enter \'Forgot\' to reset password):    ");
             pass_input = Encript_input("*");
@@ -44,7 +62,7 @@ namespace Arbot__V_Console_
 
                 if (info == null)
                 {
-                    Console.WriteLine("Wrong, you moron.");
+                    Console.WriteLine("Incorrect, please try again.");
                     Console.WriteLine("");
                     Console.WriteLine("Press any key to exit:");
                     Console.ReadKey();
