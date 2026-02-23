@@ -24,7 +24,7 @@ namespace Arbot__V_Console_
             }
             Thread.Sleep(5);
             Console.WriteLine("");
-            Console.WriteLine("---Finished---");
+            Console.WriteLine("Loading complete");
             Console.WriteLine("");
             Console.WriteLine("Press any button to continue,");
             Console.ReadKey();
@@ -187,7 +187,7 @@ namespace Arbot__V_Console_
             {
                 if (cal2 >= TimeSpan.Parse("00:00:00"))
                 {
-                    Console.WriteLine($"The day is {today_weekday} and we are in the {period}^th period of the day and the current lesson is {current_lesson} and the next lesson is {next_lesson}. The next bell is at {next_bell} and it is in {calculation} hours, minutes and seconds respectively.");
+                    Console.WriteLine($"The day is {today_weekday}. \nWe are in the {period}^th period of the day. \nThe current lesson is {current_lesson} and the next lesson is {next_lesson}. \nThe next bell is at {next_bell} and it is in {calculation} hours, minutes and seconds respectively.");
                 }
             }
 
@@ -199,7 +199,7 @@ namespace Arbot__V_Console_
             Console.WriteLine("");
             Console.WriteLine($"You have: {info.positives} positive(s),");
             Console.WriteLine($"You have: {info.negatives} negative(s),");
-            Console.WriteLine($"And you have: {info.house_points} house point(s).");
+            Console.WriteLine($"You have: {info.house_points} house point(s).");
 
             Console.WriteLine("");
             Console.WriteLine("Would you like to enter a command? - Y/N");
@@ -275,7 +275,7 @@ namespace Arbot__V_Console_
                         Console.WriteLine("\t e.g. Thu_lunch  -  this means lunchtime on Thursday (Note: lunch not lunchtime, same with hometime, home not hometime)");
                         when = Console.ReadLine();
 
-                        Console.WriteLine("What class are you changing it to?");
+                        Console.WriteLine("What class are you changing it to? Include the room");
                         what_to = Console.ReadLine();
 
                         using (SqlConnection connection = new(connectionString))
