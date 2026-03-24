@@ -32,6 +32,7 @@ namespace Arbot__V_Console_
             
             Console.WriteLine("Enter password: ");
             Console.Write("(Enter \'Forgot\' to reset password):    ");
+            Console.Write("(Enter \'Create\' to make and account):    ");
             pass_input = Encript_input("*");
             Console.WriteLine("");
 
@@ -50,6 +51,31 @@ namespace Arbot__V_Console_
                     Console.WriteLine("");
                     Console.WriteLine("Your password is:");
                     Console.WriteLine(connection.QuerySingleOrDefault<string>(sql_command_info, new { @First = first, @Last = last }));
+                    Console.WriteLine("");
+                    Console.WriteLine("Press any key to exit:");
+                    Console.ReadKey();
+                    Console.WriteLine("");
+                    Environment.Exit(0);
+                } else if(pass_input.ToLower() == "create") {
+                    Console.WriteLine("Please enter your first name, case sensitive.");
+                    string first = Console.ReadLine();
+                    Console.WriteLine("Please enter your last name, case sensitive.");
+                    string last = Console.ReadLine();
+                    Console.WriteLine("Please enter your new password.")
+                    string pass = Console.ReadLine();
+                    sql_command_info = "INSERT INTO Arbot_info (id, pass, first_name, last_name)" + 
+                                       "VALUES (@ID, @Pass, @First, @Last);";
+                    sql_command_id_next = "SELECT MAX(id) FROM Arbot_info"
+                    next_id = connection.QuerySingleOrdefault<int>(sql_command_id_next);
+                    connection.QuerySingleOrDefault(sql_command_info, new { ID = next_id, Pass = pass, First = first, Last = last });
+                    Console.WriteLine("\nCreating account:");
+                    Random rando = new Random();
+                    for(int i = 0; i <= 100; i++)
+                    {
+                        Console.Write($"\r{i}%,");
+                        Thread.Sleep(rando.Next(20, 50));
+                    }
+                    Thread.Sleep(2);
                     Console.WriteLine("");
                     Console.WriteLine("Press any key to exit:");
                     Console.ReadKey();
